@@ -6,26 +6,32 @@ using System.Threading.Tasks;
 
 namespace CarrinhoDeCompra
 {
-    class Produto
+    public class Produto
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
         public double Preco { get; set; }
-        public static int UltimoCodigo = 1;
-
+        private static int UltimoCodigo = 1;
         public static List<Produto> Produtos = new();
+
+        public Produto(string descricao, double preco) 
+        {
+            Id = UltimoCodigo;
+            Descricao = descricao;
+            Preco = preco;
+        }
+
+        public Produto ShallowCopy()
+        {
+            return (Produto)MemberwiseClone();
+        }
 
         public static void CadastrarProduto()
         {
-            Produto produto = new Produto();
+            Produto produto = new Produto("Impressora", 350.58);
             produto.Id = UltimoCodigo;
-
-            Console.WriteLine("Informe a descrição do produto");
-            produto.Descricao = Console.ReadLine();
-            Console.WriteLine("Informe o preço do produto");
-            produto.Preco = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine($"Produto cadastrado com sucesso: \n {produto.Id}: {produto.Descricao} - {produto.Preco}");
+            Console.WriteLine($"Produto cadastrado com sucesso: \n " +
+                $"{produto.Id}: {produto.Descricao} - {produto.Preco}");
             Produtos.Add(produto);
             UltimoCodigo++;
         }
